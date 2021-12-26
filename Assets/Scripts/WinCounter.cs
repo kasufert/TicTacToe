@@ -18,22 +18,27 @@ public class WinCounter : MonoBehaviour
 		crossWinsText.text = $"Cross Wins: {crossWins}";
 		drawsText.text = $"Draws: {draws}";
 		GameController.gameWin += Refresh;
-		void Refresh(Player winner)
+
+	}
+	void Refresh(Player winner)
+	{
+		switch (winner)
 		{
-			switch (winner)
-			{
-				case Player.Naught:
-					naughtWinsText.text = $"Naught Wins: {++naughtWins}";
-					break;
-				case Player.Cross:
-					crossWinsText.text = $"Cross Wins: {++crossWins}";
-					break;
-				case Player.Draw:
-					drawsText.text = $"Draws: {++draws}";
-					break;
-				default:
-					throw new ArgumentException("NoMark can't win!");
-			}
+			case Player.Naught:
+				naughtWinsText.text = $"Naught Wins: {++naughtWins}";
+				break;
+			case Player.Cross:
+				crossWinsText.text = $"Cross Wins: {++crossWins}";
+				break;
+			case Player.Draw:
+				drawsText.text = $"Draws: {++draws}";
+				break;
+			default:
+				throw new ArgumentException("NoMark can't win!");
 		}
+	}
+	private void OnDestroy()
+	{
+		GameController.gameWin -= Refresh;
 	}
 }

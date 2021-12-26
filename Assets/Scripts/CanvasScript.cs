@@ -9,15 +9,21 @@ using System.Threading.Tasks;
 
 public class CanvasScript : MonoBehaviour
 {
+    static CanvasScript instance;
     [SerializeField] GameObject resetButtonObject;
     Button resetButton;
     public static event Action resetGame;
 	private void Start()
 	{
+        if (instance == null) instance = this;
         GameController.gameWin += ActivateResetButton;
 
     }
-    async void ActivateResetButton(Player winner)
+	private void OnDestroy()
+	{
+		GameController.gameWin -= ActivateResetButton;
+	}
+	async void ActivateResetButton(Player winner)
 	{
         resetButtonObject.SetActive(true);
         resetButton = resetButtonObject.GetComponent<Button>();
